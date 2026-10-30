@@ -7,6 +7,7 @@ REMOTE_HOST       = pp-wandb
 REMOTE_PATH       = projects/wandb
 
 WANDB_HOST       ?= 127.0.0.1
+WANDB_BIND       ?= 127.0.0.1
 WANDB_PORT       ?= 18080
 WANDB_DATA       ?= $(ROOT)/data/docker
 
@@ -45,8 +46,9 @@ run: folders banner
 		--rm \
 		--interactive \
 		--tty \
+		--env HOST=http://${WANDB_HOST}:${WANDB_PORT} \
 		--volume "$(WANDB_DATA):/vol:rw" \
-		--publish "${WANDB_HOST}:${WANDB_PORT}:8080/tcp" \
+		--publish "${WANDB_BIND}:${WANDB_PORT}:8080/tcp" \
 		"$(DOCKER_NAME):$(DOCKER_VERSION)"
 
 # -----------------------------------------------------------------------------
